@@ -2,19 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingEnd="35dp">
 
     <LinearLayout
         android:layout_width="35dp"
         android:layout_height="match_parent">
         
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:layout_gravity="center"
             android:background="@drawable/rightbutton_background"
             android:text="">
-        </Button>
+        </androidx.appcompat.widget.AppCompatButton>
         
     </LinearLayout>
 
@@ -35,6 +36,8 @@
                 android:layout_weight="1"
                 android:layout_height="0dp"
                 android:gravity="center"
+                android:textColor="#CECECE"
+                android:fontFamily="sans-serif-medium"
                 android:text="Outside Noise: --- amplitude">
             </TextView>
 
@@ -43,6 +46,8 @@
                 android:layout_weight="1"
                 android:layout_height="0dp"
                 android:gravity="center"
+                android:textColor="#CECECE"
+                android:fontFamily="sans-serif-medium"
                 android:text="Volume level set to --- %">
             </TextView>
 
@@ -55,22 +60,28 @@
             android:layout_weight="1"
             android:layout_height="0dp"
             android:orientation="vertical"
+            android:gravity="center"
             android:padding="70dp">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="0dp"
+                android:layout_weight="0"
+                android:layout_height="100dp"
                 android:gravity="center"
+                android:background="@drawable/mainbuttons_background"
+                android:layout_marginVertical="5dp"
                 android:text="Start">
-            </Button>
-            <Button
+            </androidx.appcompat.widget.AppCompatButton>
+
+            <!--androidx.appcompat.widget.AppCompatButton
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:layout_height="0dp"
                 android:gravity="center"
+                android:background="@drawable/mainbuttons_background"
+                android:layout_marginVertical="5dp"
                 android:text="Stop">
-            </Button>
+            </androidx.appcompat.widget.AppCompatButton-->
 
         </LinearLayout>
 
