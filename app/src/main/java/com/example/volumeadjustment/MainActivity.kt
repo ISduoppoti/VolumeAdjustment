@@ -54,16 +54,11 @@ class MainActivity : AppCompatActivity(), Timer.OnTimerTickListener {
         textViewVolume = findViewById(R.id.TextViewVolume)
 
         buttonStart.setOnClickListener(){
+            isWorking = !isWorking
+
             if(buttonStart.text == "Start")
                 buttonStart.text = "Stop"
-                // TODO Canvas Live background
-
             else{buttonStart.text = "Start"}
-
-            if(isWorking == false)
-                isWorking = true
-
-            else {isWorking = false}
         }
 
         audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
@@ -95,10 +90,18 @@ class MainActivity : AppCompatActivity(), Timer.OnTimerTickListener {
     }
 
     private fun setVolume(){
-        val volumeLevel = amplitudeValue * 100 / 10000
+        var maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+
+        when{
+            amplitudeValue < 500 -> volumeValue = (0.2 * maxVolume).toInt()
+            amplitudeValue in 500..5000 -> volumeValue = (0.5 * maxVolume).toInt()
+            amplitudeValue > 5000 -> volumeValue = (0.8 * maxVolume).toInt()
+
+        }
+
         audioManager.setStreamVolume(
             AudioManager.STREAM_MUSIC,
-            volumeLevel,
+            volumeValue,
             AudioManager.FLAG_PLAY_SOUND
         )
     }
