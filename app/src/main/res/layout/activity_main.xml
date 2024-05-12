@@ -10,6 +10,7 @@
         android:layout_height="match_parent">
         
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonSettings"
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:layout_gravity="center"
@@ -32,6 +33,7 @@
             android:gravity="center">
 
             <TextView
+                android:id="@+id/TextViewAmplitude"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:layout_height="0dp"
@@ -42,6 +44,7 @@
             </TextView>
 
             <TextView
+                android:id="@+id/TextViewVolume"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:layout_height="0dp"
@@ -64,6 +67,7 @@
             android:padding="70dp">
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/buttonStart"
                 android:layout_width="match_parent"
                 android:layout_weight="0"
                 android:layout_height="100dp"
