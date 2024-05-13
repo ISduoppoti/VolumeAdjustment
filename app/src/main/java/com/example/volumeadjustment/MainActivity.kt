@@ -119,10 +119,22 @@ class MainActivity : AppCompatActivity(), Timer.OnTimerTickListener {
             isInLine = false
 
             when{
-                amplitudeValue < 7000 -> volumeValue = (0.2 * maxVolume).toInt()
-                amplitudeValue in 7000..11000 -> volumeValue = (0.4 * maxVolume).toInt()
-                amplitudeValue in 11000..14000 -> volumeValue = (0.5 * maxVolume).toInt()
-                amplitudeValue > 14000 -> volumeValue = (0.6 * maxVolume).toInt()
+                amplitudeValue < 7000 -> {
+                    volumeValue = (0.2 * maxVolume).toInt()
+                    textViewVolume.text = "Volume level set to 20%"
+                }
+                amplitudeValue in 7000..11000 -> {
+                    volumeValue = (0.4 * maxVolume).toInt()
+                    textViewVolume.text = "Volume level set to 40%"
+                }
+                amplitudeValue in 11000..14000 -> {
+                    volumeValue = (0.5 * maxVolume).toInt()
+                    textViewVolume.text = "Volume level set to 50%"
+                }
+                amplitudeValue > 14000 -> {
+                    volumeValue = (0.6 * maxVolume).toInt()
+                    textViewVolume.text = "Volume level set to 60%"
+                }
             }
 
             audioManager.setStreamVolume(
@@ -133,6 +145,7 @@ class MainActivity : AppCompatActivity(), Timer.OnTimerTickListener {
     }
 
     override fun onTimerTick(duration: String) {
+        amplitudeValue = recorder.maxAmplitude
 
         textViewAmplitude.text = "Outside Noise: ${amplitudeValue} amplitude"
 
