@@ -14,6 +14,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import java.io.IOException
+import kotlin.math.absoluteValue
 
 
 const val REQUEST_CODE = 200
@@ -30,13 +31,20 @@ class MainActivity : AppCompatActivity(), Timer.OnTimerTickListener {
     private lateinit var recorder : MediaRecorder
 
     private lateinit var audioManager: AudioManager
+    private var maxVolume : Int = 0
 
     private lateinit var timer : Timer
 
     private var amplitudeValue = 0
+    private var oldAmplitude = 0
+    private var lineAmplitude = 0
     private var volumeValue = 0
 
+    private var lineCounter = 0
+    private var counter = 0
+
     private var isWorking = false
+    private var isInLine = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +70,7 @@ class MainActivity : AppCompatActivity(), Timer.OnTimerTickListener {
         }
 
         audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
+        maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 
         timer = Timer(this)
 
@@ -90,24 +99,40 @@ class MainActivity : AppCompatActivity(), Timer.OnTimerTickListener {
     }
 
     private fun setVolume(){
-        var maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 
-        when{
-            amplitudeValue < 500 -> volumeValue = (0.2 * maxVolume).toInt()
-            amplitudeValue in 500..5000 -> volumeValue = (0.5 * maxVolume).toInt()
-            amplitudeValue > 5000 -> volumeValue = (0.8 * maxVolume).toInt()
+        oldAmplitude = if( isInLine )
+            lineAmplitude
+        else { amplitudeValue }
 
+        amplitudeValue = recorder.maxAmplitude
+
+        if( (amplitudeValue - oldAmplitude).absoluteValue > 500 ) {
+            lineCounter += 1
+            lineAmplitude = oldAmplitude
+            isInLine = true
+
+            if( lineCounter < 5) {
+                return
+            }
+
+            lineCounter = 0
+            isInLine = false
+
+            when{
+                amplitudeValue < 7000 -> volumeValue = (0.2 * maxVolume).toInt()
+                amplitudeValue in 7000..11000 -> volumeValue = (0.4 * maxVolume).toInt()
+                amplitudeValue in 11000..14000 -> volumeValue = (0.5 * maxVolume).toInt()
+                amplitudeValue > 14000 -> volumeValue = (0.6 * maxVolume).toInt()
+            }
+
+            audioManager.setStreamVolume(
+                AudioManager.STREAM_MUSIC,
+                volumeValue,
+                AudioManager.FLAG_PLAY_SOUND)
         }
-
-        audioManager.setStreamVolume(
-            AudioManager.STREAM_MUSIC,
-            volumeValue,
-            AudioManager.FLAG_PLAY_SOUND
-        )
     }
 
     override fun onTimerTick(duration: String) {
-        amplitudeValue = recorder.maxAmplitude
 
         textViewAmplitude.text = "Outside Noise: ${amplitudeValue} amplitude"
 
