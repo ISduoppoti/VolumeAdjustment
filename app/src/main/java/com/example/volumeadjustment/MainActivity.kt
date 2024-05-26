@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity(), Timer.OnTimerTickListener {
         amplitudeList.add(amplitudeValue)
 
         if( amplitudeList.size >= 5 ){
-            if( (amplitudeList.max() - amplitudeList.min()) > 500 ){
+            if( (amplitudeList.max() - amplitudeList.min()) > 2000 ){
                 amplitudeList.clear()
 
             }else{
